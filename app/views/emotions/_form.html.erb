@@ -1,0 +1,64 @@
+<%= form_with(model: emotion, local: true, class: "bg-white rounded-lg shadow-md p-6") do |form| %>
+  <% if emotion.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      <h2 class="font-bold">There were <%= pluralize(emotion.errors.count, "error") %> that prevented this emotion from being saved:</h2>
+      <ul class="mt-2 list-disc list-inside">
+        <% emotion.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="col-span-1">
+      <div class="mb-4">
+        <%= form.label :name, class: "block text-gray-700 font-bold mb-2" %>
+        <%= form.text_field :name, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :color, class: "block text-gray-700 font-bold mb-2" %>
+        <%= form.color_field :color, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" %>
+      </div>
+    </div>
+
+    <div class="col-span-1">
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <h3 class="font-semibold mb-2">Preview</h3>
+        <div class="flex items-center space-x-4">
+          <div class="w-8 h-8 rounded-full" id="color-preview" style="background-color: <%= emotion.color || '#000000' %>"></div>
+          <div>
+            <p class="text-sm text-gray-600">Current color</p>
+            <p class="font-mono text-sm" id="color-value"><%= emotion.color || '#000000' %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-between mt-6">
+    <%= form.submit class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    
+    <% if emotion.persisted? %>
+      <%= link_to 'Cancel', emotion, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
+    <% else %>
+      <%= link_to 'Cancel', emotions_path, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
+    <% end %>
+  </div>
+<% end %>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const colorInput = document.querySelector('input[type="color"]');
+  const colorPreview = document.getElementById('color-preview');
+  const colorValue = document.getElementById('color-value');
+
+  if (colorInput) {
+    colorInput.addEventListener('input', function() {
+      colorPreview.style.backgroundColor = this.value;
+      colorValue.textContent = this.value;
+    });
+  }
+});
+</script>

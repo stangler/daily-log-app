@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_report, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_report_owner!, only: [:edit, :update, :destroy]
 
   def index
     @reports = current_user.reports.order(created_at: :desc)
@@ -45,7 +46,19 @@ class ReportsController < ApplicationController
     @report = current_user.reports.find(params[:id])
   end
 
+  def authorize_report_owner!
+    unless @report.user == current_user
+      flash[:alert] = "You don't have permission to access this report."
+      redirect_to reports_path
+    end
+  end
+
   def report_params
     params.require(:report).permit(:title, :content, :emotion_id, :image, :tag_list)
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    flash[:alert] = "Report not found."
+    redirect_to reports_path
   end
 end
