@@ -37,6 +37,9 @@ gem "ransack"
 # Chart.js for graphs
 gem "chartjs-ror"
 
+# Date grouping for ActiveRecord
+gem "groupdate"
+
 # Testing
 group :test do
   gem "rspec-rails"
