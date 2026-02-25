@@ -24,6 +24,38 @@
   </head>
 
   <body>
-    <%= yield %>
+    <!-- ナビゲーションバー -->
+    <nav class="bg-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- ロゴ/サイト名 -->
+          <div class="flex items-center">
+            <%= link_to "Daily Log App", root_path, class: "text-white font-bold text-xl" %>
+          </div>
+          
+          <!-- ナビゲーションリンク -->
+          <div class="flex space-x-4">
+            <% if user_signed_in? %>
+              <!-- ログイン時のリンク -->
+              <%= link_to "My Daily Reports", reports_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
+              <%= link_to "Emotions", emotions_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
+              <%= link_to "Tags", tags_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
+              <%= form_with url: destroy_user_session_path, method: :delete, class: "inline" do %>
+                <%= submit_tag "Logout", class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
+              <% end %>
+            <% else %>
+              <!-- 未ログイン時のリンク -->
+              <%= link_to "Sign In", new_user_session_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="container mx-auto px-4 py-6">
+      <%= yield %>
+    </div>
   </body>
 </html>

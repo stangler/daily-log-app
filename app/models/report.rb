@@ -9,4 +9,13 @@ class Report < ApplicationRecord
   validates :emotion, presence: true
 
   has_one_attached :image
+
+  # Ransack 検索設定
+  def self.ransackable_attributes(auth_object = nil)
+    ["content", "created_at", "emotion_id", "id", "title", "updated_at", "user_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["emotion", "tags"]
+  end
 end
