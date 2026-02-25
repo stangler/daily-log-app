@@ -4,7 +4,8 @@ class ReportsController < ApplicationController
   before_action :authorize_report_owner!, only: [:edit, :update, :destroy]
 
   def index
-    @reports = current_user.reports.order(created_at: :desc)
+    @q = current_user.reports.ransack(params[:q])
+    @reports = @q.result(distinct: true).order(created_at: :desc)
   end
 
   def show
