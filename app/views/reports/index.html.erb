@@ -1,0 +1,51 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8">My Daily Reports</h1>
+
+  <%= link_to 'New Report', new_report_path, class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-8 inline-block' %>
+
+  <% if @reports.any? %>
+    <div class="space-y-4">
+      <% @reports.each do |report| %>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="text-xl font-semibold"><%= report.title %></h2>
+            <div class="flex items-center space-x-2">
+              <%= link_to 'Edit', edit_report_path(report), class: 'text-blue-600 hover:text-blue-800' %>
+              <%= link_to 'Delete', report, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-600 hover:text-red-800' %>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <p class="text-gray-600"><%= report.content %></p>
+          </div>
+
+          <% if report.image.attached? %>
+            <div class="mb-4">
+              <%= image_tag report.image.variant(resize_to_limit: [300, 300]), class: 'rounded' %>
+            </div>
+          <% end %>
+
+          <div class="flex items-center space-x-4 text-sm text-gray-500">
+            <div>
+              <span class="font-medium">Emotion:</span> 
+              <%= report.emotion&.name || 'Not specified' %>
+            </div>
+            <div>
+              <span class="font-medium">Tags:</span> 
+              <%= report.tags.pluck(:name).join(', ') %>
+            </div>
+            <div>
+              <span class="font-medium">Created:</span> 
+              <%= time_ago_in_words(report.created_at) %> ago
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+      <p class="text-gray-500 mb-4">No reports yet. Create your first report!</p>
+      <%= link_to 'Create First Report', new_report_path, class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+    </div>
+  <% end %>
+</div>

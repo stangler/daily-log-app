@@ -1,0 +1,40 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="flex justify-between items-start mb-4">
+      <h1 class="text-2xl font-bold"><%= @report.title %></h1>
+      <div class="flex items-center space-x-2">
+        <%= link_to 'Edit', edit_report_path(@report), class: 'text-blue-600 hover:text-blue-800' %>
+        <%= link_to 'Delete', @report, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-600 hover:text-red-800' %>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <p class="text-gray-600"><%= @report.content %></p>
+    </div>
+
+    <% if @report.image.attached? %>
+      <div class="mb-4">
+        <%= image_tag @report.image.variant(resize_to_limit: [400, 400]), class: 'rounded-lg' %>
+      </div>
+    <% end %>
+
+    <div class="flex items-center space-x-4 text-sm text-gray-500">
+      <div>
+        <span class="font-medium">Emotion:</span> 
+        <%= @report.emotion&.name || 'Not specified' %>
+      </div>
+      <div>
+        <span class="font-medium">Tags:</span> 
+        <%= @report.tags.pluck(:name).join(', ') %>
+      </div>
+      <div>
+        <span class="font-medium">Created:</span> 
+        <%= time_ago_in_words(@report.created_at) %> ago
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <%= link_to 'Back to Reports', reports_path, class: 'text-gray-600 hover:text-gray-800' %>
+  </div>
+</div>
