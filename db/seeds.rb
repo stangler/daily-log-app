@@ -62,7 +62,7 @@ reports_data = [
   {
     title: 'Railsアプリの新機能実装',
     content: "今日はRailsアプリに新しい機能を実装しました。
-    
+
 ## 今日の出来事
 - ユーザー管理機能の追加
 - データベース設計を見直し
@@ -81,7 +81,7 @@ reports_data = [
   {
     title: 'Reactコンポーネントのバグ修正',
     content: "Reactのコンポーネントでバグが発生し、修正に時間がかかりました。
-    
+
 ## 今日の出来事
 - 状態管理の問題を特定
 - レンダリングの無限ループを修正
@@ -100,7 +100,7 @@ reports_data = [
   {
     title: 'CSSデザインの調整',
     content: "デザインチームからのフィードバックに基づき、CSSを大幅に調整しました。
-    
+
 ## 今日の出来事
 - レスポンシブデザインに対応
 - カラーパレットを統一
@@ -119,7 +119,7 @@ reports_data = [
   {
     title: 'Gitのマージ作業',
     content: "チームメンバーとのコード統合作業を行いました。
-    
+
 ## 今日の出来事
 - マージコンフリクトを解決
 - ブランチ整理
@@ -138,7 +138,7 @@ reports_data = [
   {
     title: 'コードレビュー',
     content: "同僚のコードレビューを行いました。
-    
+
 ## 今日の出来事
 - 新しい実装パターンを学んだ
 - 最適化のアイデアを共有
@@ -157,7 +157,7 @@ reports_data = [
   {
     title: '要件定義ミーティング',
     content: "新規プロジェクトの要件定義ミーティングに参加しました。
-    
+
 ## 今日の出来事
 - クライアントの要望をヒアリング
 - 技術的制約を確認
@@ -176,7 +176,7 @@ reports_data = [
   {
     title: '進捗報告',
     content: "週次の進捗報告を行いました。
-    
+
 ## 今日の出来事
 - 先週の成果をまとめた
 - 問題点を共有
@@ -195,7 +195,7 @@ reports_data = [
   {
     title: '見積もり作業',
     content: "新しい機能の見積もりを行いましたが、大幅に甘く出てしまいました。
-    
+
 ## 今日の出来事
 - タスクを細分化
 - リスク要因を洗い出し
@@ -214,7 +214,7 @@ reports_data = [
   {
     title: 'ドキュメント作成',
     content: "プロジェクトの技術ドキュメントを作成しました。
-    
+
 ## 今日の出来事
 - API仕様書を整備
 - 開発環境構築手順を作成
@@ -233,7 +233,7 @@ reports_data = [
   {
     title: 'テスト作業',
     content: "ユニットテストと統合テストを充実させました。
-    
+
 ## 今日の出来事
 - カバレッジを80%以上に向上
 - モックの使い方を改善
@@ -254,14 +254,14 @@ reports_data = [
 reports_data.each do |report_data|
   user = user1 # 個人用アプリなのでuser1だけ使用
   emotion = Emotion.find_by!(name: report_data[:emotion_name])
-  
+
   report = Report.create!(
     title: report_data[:title],
     content: report_data[:content],
     user: user,
     emotion: emotion
   )
-  
+
   # 指定されたタグを追加
   report_data[:tags].each do |tag_name|
     tag = Tag.find_or_create_by!(name: tag_name)
