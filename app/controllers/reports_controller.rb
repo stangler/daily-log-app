@@ -1,11 +1,15 @@
 class ReportsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index]
   before_action :set_report, only: [:show, :edit, :update, :destroy]
   before_action :authorize_report_owner!, only: [:edit, :update, :destroy]
 
   def index
-    @q = current_user.reports.ransack(params[:q])
-    @reports = @q.result(distinct: true).order(created_at: :desc)
+    if user_signed_in?
+      @q = current_user.reports.ransack(params[:q])
+      @reports = @q.result(distinct: true).order(created_at: :desc)
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   def show
