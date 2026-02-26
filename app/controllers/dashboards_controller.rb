@@ -4,14 +4,14 @@ class DashboardsController < ApplicationController
   def show
     # Emotion timeline data: reports grouped by day and emotion
     @emotion_timeline_data = current_user.reports
-      .group_by_day(:created_at, format: '%Y-%m-%d')
+      .group_by_day(:created_at, format: "%Y-%m-%d")
       .group(:emotion_id)
       .count
 
     # Tag distribution data: count of reports per tag
     @tag_distribution_data = current_user.reports
       .joins(:tags)
-      .group('tags.name')
+      .group("tags.name")
       .count
 
     # Get emotion names for chart labels
