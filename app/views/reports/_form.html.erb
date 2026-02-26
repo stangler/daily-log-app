@@ -1,11 +1,12 @@
-<div>
+  <div>
   <%= f.label :title, class: 'block text-sm font-medium text-gray-700 mb-1' %>
   <%= f.text_field :title, class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' %>
 </div>
 
-<div>
+<div data-controller="markdown-preview">
   <%= f.label :content, class: 'block text-sm font-medium text-gray-700 mb-1' %>
-  <%= f.text_area :content, class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', rows: 6 %>
+  <%= f.text_area :content, class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', rows: 6, 'data-markdown-preview-target': 'input' %>
+  <div data-markdown-preview-target="preview" class="bg-gray-50 p-4 rounded-md mt-4"></div>
 </div>
 
 <div>
@@ -18,9 +19,10 @@
   <%= f.file_field :image, class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' %>
 </div>
 
-<div>
+<div data-controller="tag-autocomplete" data-tag-autocomplete-tags-value="<%= Tag.pluck(:name).to_json %>">
   <%= f.label :tag_list, 'Tags (comma separated)', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-  <%= f.text_field :tag_list, class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' %>
+  <%= f.text_field :tag_list, class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'data-tag-autocomplete-target': 'input' %>
+  <div data-tag-autocomplete-target="suggestions" class="bg-white border border-gray-300 rounded-md mt-1 shadow-lg max-h-48 overflow-y-auto"></div>
 </div>
 
 <div>
