@@ -34,9 +34,8 @@ gem "devise"
 # Search
 gem "ransack"
 
-# Chart.js for graphs
-gem "chartjs-ror"
-
+# Chartkick for chart helpers
+gem "chartkick", "~> 5.2.1"
 # Date grouping for ActiveRecord
 gem "groupdate"
 
@@ -70,7 +69,7 @@ group :development, :test do
   gem "bundler-audit", require: false
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
+  gem "brakeman", "~> 8.0.4", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
@@ -86,3 +85,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "tailwindcss-rails"
