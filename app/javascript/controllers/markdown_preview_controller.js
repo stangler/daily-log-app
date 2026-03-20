@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import marked from 'marked'
+import { marked } from "marked"
+import DOMPurify from "dompurify"
 
 export default class extends Controller {
   static targets = [ "input", "preview" ]
@@ -10,12 +11,15 @@ export default class extends Controller {
 
   updatePreview() {
     const markdown = this.inputTarget.value
-    const html = marked.parse(markdown, {
+
+    // marked でHTMLに変換し、DOMPurify でサニタイズしてから挿入（XSS対策）
+    // 注意: marked v5以降 sanitize オプションは削除されているため使用しない
+    const rawHtml = marked.parse(markdown, {
       gfm: true,
-      breaks: true,
-      sanitize: true
+      breaks: true
     })
-    this.previewTarget.innerHTML = html
+
+    this.previewTarget.innerHTML = DOMPurify.sanitize(rawHtml)
   }
 
   onInput() {

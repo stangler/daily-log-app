@@ -11,7 +11,7 @@ export default class extends Controller {
 
   searchTags(event) {
     const query = event.target.value.toLowerCase()
-    const suggestions = this.availableTags.filter(tag => 
+    const suggestions = this.availableTags.filter(tag =>
       tag.toLowerCase().includes(query) && tag.toLowerCase() !== query
     ).slice(0, 10)
 
@@ -19,26 +19,34 @@ export default class extends Controller {
   }
 
   showSuggestions(suggestions) {
+    // 既存の候補をクリア
+    this.suggestionsTarget.replaceChildren()
+
     if (suggestions.length === 0) {
       this.suggestionsTarget.style.display = "none"
       return
     }
 
-    this.suggestionsTarget.innerHTML = suggestions.map(suggestion => `
-      <div class="suggestion" data-tag="${suggestion}">
-        ${suggestion}
-      </div>
-    `).join("")
+    suggestions.forEach(suggestion => {
+      // innerHTML を使わず DOM API で要素を生成（XSS対策）
+      const div = document.createElement("div")
+      div.className = "suggestion cursor-pointer px-4 py-2 hover:bg-gray-100"
+      div.dataset.tag = suggestion
+      div.textContent = suggestion  // textContent でエスケープ済みテキストとして挿入
+      div.addEventListener("click", (e) => this.selectTag(e))
+      this.suggestionsTarget.appendChild(div)
+    })
 
     this.suggestionsTarget.style.display = "block"
-    this.suggestionsTarget.querySelectorAll(".suggestion").forEach(suggestion => {
-      suggestion.addEventListener("click", (e) => this.selectTag(e))
-    })
   }
 
   selectTag(event) {
-    const selectedTag = event.target.dataset.tag
-    const currentTags = this.inputTarget.value.split(",").map(tag => tag.trim())
+    const selectedTag = event.currentTarget.dataset.tag
+    const currentTags = this.inputTarget.value
+      .split(",")
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0)
+
     if (!currentTags.includes(selectedTag)) {
       currentTags.push(selectedTag)
       this.inputTarget.value = currentTags.join(", ")
